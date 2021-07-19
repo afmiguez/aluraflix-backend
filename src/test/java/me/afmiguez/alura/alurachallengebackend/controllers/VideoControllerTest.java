@@ -48,8 +48,11 @@ class VideoControllerTest {
         mockMvc.perform(get("/videos/1"))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/videos/10"))
-                .andExpect(status().isNotFound());
+        String response=mockMvc.perform(get("/videos/10"))
+                .andExpect(status().isNotFound()).andReturn().getResponse().getContentAsString();
+
+        assertTrue(response.isEmpty());
+
 
     }
 
@@ -88,8 +91,11 @@ class VideoControllerTest {
                 .andExpect(status().isBadRequest());
 
         invalidVideo= Video.builder().descricao("descricao").url("http://url.com").build();
-        mockMvc.perform(post("/videos").content(objectMapper.writeValueAsString(invalidVideo)).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+        String response=mockMvc.perform(post("/videos").content(objectMapper.writeValueAsString(invalidVideo)).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest()).andReturn().getResponse().getContentAsString();
+
+
+        assertTrue(response.isEmpty());
 
     }
 
@@ -119,8 +125,10 @@ class VideoControllerTest {
         mockMvc.perform(delete("/videos/1"))
                 .andExpect(status().isNoContent());
 
-        mockMvc.perform(delete("/videos/10"))
-                .andExpect(status().isNotFound());
+        String response=mockMvc.perform(delete("/videos/10"))
+                .andExpect(status().isNotFound()).andReturn().getResponse().getContentAsString();
+
+        assertTrue(response.isEmpty());
 
     }
 

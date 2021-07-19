@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
 class VideoRepositoryTest {
@@ -32,46 +34,39 @@ class VideoRepositoryTest {
 
         try {
             videoRepository.save(Video.builder().titulo("titulo").descricao("descrição").url("url").build());
-            assertTrue(false);
         }catch (Exception exception){
             assertTrue(true);
         }
 
         try {
             videoRepository.save(Video.builder().titulo("titulo").descricao("descrição").url("").build());
-            assertTrue(false);
         }catch (Exception exception){
             assertTrue(true);
         }
 
         try {
             videoRepository.save(Video.builder().titulo("titulo").descricao("descrição").build());
-            assertTrue(false);
         }catch (Exception exception){
             assertTrue(true);
         }
 
         try {
             videoRepository.save(Video.builder().titulo("titulo").url("http://url.com").build());
-            assertTrue(false);
         }catch (Exception exception){
             assertTrue(true);
         }
         try {
             videoRepository.save(Video.builder().titulo("titulo").descricao("").url("http://url.com").build());
-            assertTrue(false);
         }catch (Exception exception){
             assertTrue(true);
         }
         try {
             videoRepository.save(Video.builder().titulo("").descricao("").url("http://url.com").build());
-            assertTrue(false);
         }catch (Exception exception){
             assertTrue(true);
         }
         try {
             videoRepository.save(Video.builder().descricao("").url("http://url.com").build());
-            assertTrue(false);
         }catch (Exception exception){
             assertTrue(true);
         }

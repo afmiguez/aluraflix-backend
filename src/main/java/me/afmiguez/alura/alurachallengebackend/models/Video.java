@@ -1,6 +1,12 @@
 package me.afmiguez.alura.alurachallengebackend.models;
 
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.Entity;
