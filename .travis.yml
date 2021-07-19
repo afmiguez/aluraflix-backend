@@ -1,3 +1,4 @@
+dist: trusty
 language: java
 jdk:
   - oraclejdk15
@@ -7,5 +8,4 @@ script:
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
   - mvn test -B
 after_success:
-  - mvn clean cobertura:cobertura coveralls:report
-
+  - mvn clean test jacoco:report coveralls:report
