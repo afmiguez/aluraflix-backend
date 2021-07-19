@@ -1,7 +1,7 @@
 dist: trusty
 language: java
 jdk:
-  - oraclejdk15
+  - jdk11
 install:
   - mvn -N io.takari:maven:wrapper
 script:
