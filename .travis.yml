@@ -1,4 +1,8 @@
 language: java
+jdk:
+  - oraclejdk15
+install:
+  - mvn -N io.takari:maven:wrapper
 script:
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
   - mvn test -B
