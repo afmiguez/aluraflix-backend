@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -22,7 +23,6 @@ import javax.validation.constraints.NotNull;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 public class Video {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +30,7 @@ public class Video {
 
     @NotNull
     @NotEmpty
+
     private String titulo;
     @NotNull
     @NotEmpty
@@ -38,4 +39,17 @@ public class Video {
     @NotNull
     @NotEmpty
     private String descricao;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Video video = (Video) o;
+        return titulo.equals(video.titulo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(titulo);
+    }
 }
