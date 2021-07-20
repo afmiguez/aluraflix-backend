@@ -14,7 +14,8 @@ Arquitetura em camadas, futuramente removendo dependências externas das classes
 
 Coleção de testes do Postman incluída.
 
-##Ferramentas adicionais
+## Ferramentas adicionais
 * Codacy para análise estática de código
 * CircleCI para futura implantação
 * Travis-CI, Codecov e Jacoco (maven plugin) para cobertura de testes
+* Swagger para documentação da API (http://localhost:10000/api/swagger-ui/)
