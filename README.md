@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.com/afmiguez/aluraflix-backend.svg?branch=master)](https://travis-ci.com/afmiguez/aluraflix-backend)
 [![codecov](https://codecov.io/gh/afmiguez/aluraflix-backend/branch/master/graph/badge.svg?token=V5K4YGB2MM)](https://codecov.io/gh/afmiguez/aluraflix-backend)
 # Challenge Back End Alura (API AluraFlix)
-### WIP
+## WIP
 Projeto de API para manter uma lista de Videos.
 Feito com Spring Boot.
 Coleção de testes do Postman incluída. 
