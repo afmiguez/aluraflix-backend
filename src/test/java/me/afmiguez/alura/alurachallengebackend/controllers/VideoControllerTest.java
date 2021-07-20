@@ -2,7 +2,7 @@ package me.afmiguez.alura.alurachallengebackend.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.afmiguez.alura.alurachallengebackend.models.Video;
-import me.afmiguez.alura.alurachallengebackend.repositories.VideoRepository;
+import me.afmiguez.alura.alurachallengebackend.services.VideoServiceI;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -29,7 +29,7 @@ class VideoControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private VideoRepository videoRepository;
+    private VideoServiceI videoService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -38,7 +38,7 @@ class VideoControllerTest {
     @Test
     public void listAllVideos() throws Exception {
         assertNotNull(mockMvc);
-        assertNotNull(videoRepository);
+        assertNotNull(videoService);
 
         mockMvc.perform(get("/videos"))
                 .andExpect(status().isOk());
@@ -48,9 +48,7 @@ class VideoControllerTest {
     @Test
     public void getVideoById() throws Exception {
         Long id=1L;
-
-        when(videoRepository.existsById(id)).thenReturn(true);
-        when(videoRepository.getById(id)).thenReturn(Video.builder().build());
+        when(videoService.findVideoById(id)).thenReturn(Video.builder().build());
 
         mockMvc.perform(get("/videos/1"))
                 .andExpect(status().isOk());
@@ -68,7 +66,7 @@ class VideoControllerTest {
 
         Video validVideo=Video.builder().titulo("titulo").descricao("descrição").url("http://url.com").build();
 
-        when(videoRepository.save(validVideo)).thenReturn(validVideo);
+        when(videoService.addNewVideo(validVideo)).thenReturn(validVideo);
 
         mockMvc.perform(post("/videos").content(objectMapper.writeValueAsString(validVideo)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -108,11 +106,10 @@ class VideoControllerTest {
 
     @Test
     public void changeVideo() throws Exception {
-        Video originalVideo=Video.builder().titulo("titulo").descricao("descrição").url("http://url.com").id(1L).build();
+        //Video originalVideo=Video.builder().titulo("titulo").descricao("descrição").url("http://url.com").id(1L).build();
         Video changedVideo=Video.builder().titulo("titulo").descricao("descrição").url("http://url.com").id(1L).build();
 
-        when(videoRepository.getById(1L)).thenReturn(originalVideo);
-        when(videoRepository.save(changedVideo)).thenReturn(changedVideo);
+        when(videoService.updateVideo(changedVideo)).thenReturn(changedVideo);
 
         String validResponseJson=mockMvc.perform(put("/videos").content(objectMapper.writeValueAsString(changedVideo)).contentType(MediaType.APPLICATION_JSON).characterEncoding("utf8"))
                 .andExpect(status().isOk())
@@ -127,7 +124,7 @@ class VideoControllerTest {
 
     @Test
     public void removeVideo() throws Exception {
-        when(videoRepository.existsById(1L)).thenReturn(true);
+        when(videoService.deleteVideoById(1L)).thenReturn(true);
 
         mockMvc.perform(delete("/videos/1"))
                 .andExpect(status().isNoContent());

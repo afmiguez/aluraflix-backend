@@ -1,8 +1,8 @@
 package me.afmiguez.alura.alurachallengebackend.controllers;
 
 import lombok.RequiredArgsConstructor;
+import me.afmiguez.alura.alurachallengebackend.services.VideoServiceI;
 import me.afmiguez.alura.alurachallengebackend.models.Video;
-import me.afmiguez.alura.alurachallengebackend.repositories.VideoRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,41 +21,35 @@ import java.util.List;
 @RequestMapping("videos")
 @RequiredArgsConstructor
 public class VideoController {
-    private final VideoRepository videoRepository;
+    private final VideoServiceI videoService;
 
     @GetMapping
     public ResponseEntity<List<Video>> listAllVideos(){
-        return ResponseEntity.ok(videoRepository.findAll());
+        return ResponseEntity.ok(videoService.findAllVideos());
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Video> listAllVideos(@PathVariable Long id){
-        if(videoRepository.existsById(id)){
-            return ResponseEntity.ok(videoRepository.getById(id));
+    public ResponseEntity<Video> findVideoById(@PathVariable Long id){
+        Video video=videoService.findVideoById(id);
+        if(video!=null){
+            return ResponseEntity.ok(video);
         }
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping
     public ResponseEntity<Video> addNewVideo(@Valid @RequestBody Video video){
-
-            return ResponseEntity.ok(videoRepository.save(video));
-
+            return ResponseEntity.ok(videoService.addNewVideo(video));
     }
 
     @PutMapping
     public ResponseEntity<Video> updateVideo(@Valid @RequestBody Video video){
-        Video videoFromdb=videoRepository.getById(video.getId());
-        videoFromdb.setDescricao(video.getDescricao());
-        videoFromdb.setTitulo(video.getTitulo());
-        videoFromdb.setUrl(video.getUrl());
-        return ResponseEntity.ok(videoRepository.save(videoFromdb));
+        return ResponseEntity.ok(videoService.updateVideo(video));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Video> removeVideo(@PathVariable Long id){
-        if(videoRepository.existsById(id)){
-            videoRepository.deleteById(id);
+        if(videoService.deleteVideoById(id)){
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
